@@ -1,0 +1,13 @@
+.form {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+  margin-bottom: 30px;
+}
+.input {
+  padding: 8px;
+  font-size: 14px;
+  &:focus {
+    outline-color: #1976d2;
+  }
+}
