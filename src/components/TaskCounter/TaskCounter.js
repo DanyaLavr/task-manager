@@ -1,13 +1,14 @@
-import { useSelector } from "react-redux";
+import { selectTaskCount } from "redux/filters/selectors";
 import css from "./TaskCounter.module.css";
-import { selectTaskCounter, selectTasks } from "redux/selectors";
+import { useSelector } from "react-redux";
 
 export const TaskCounter = () => {
-  const { completed, active } = useSelector(selectTaskCounter);
+  const count = useSelector(selectTaskCount);
+
   return (
     <div>
-      <p className={css.text}>Active: {active}</p>
-      <p className={css.text}>Completed: {completed}</p>
+      <p className={css.text}>Active: {count.active}</p>
+      <p className={css.text}>Completed: {count.completed}</p>
     </div>
   );
 };

@@ -1,59 +1,68 @@
 import { MdClose } from "react-icons/md";
 import css from "./Task.module.css";
 import { useDispatch, useSelector } from "react-redux";
-
-import { deleteComment, deleteTask, toggleCompleted } from "redux/opertions";
-import { makeSelectCommentsForTask } from "redux/selectors";
-import CommentForm from "components/CommentForm/CommentForm";
+import { deleteTask, toggleCompleted } from "../../redux/tasks/operations";
+import { makeSelectCommentsForTask } from "../../redux/comments/selectors";
+import CommentForm from "../CommentForm/CommentForm";
+import { deleteComment } from "redux/comments/operations";
 
 export const Task = ({ task }) => {
+  const dispatch = useDispatch();
+
   const comments = useSelector(makeSelectCommentsForTask(task.comments));
 
-  const dispatch = useDispatch();
+  const handleDelete = () => {
+    dispatch(deleteTask(task.id));
+  };
+
+  const handleToggle = () => {
+    dispatch(toggleCompleted(task));
+  };
   return (
-    <>
+    <div>
       <div className={css.wrapper}>
         <input
           type="checkbox"
           className={css.checkbox}
           checked={task.completed}
-          onChange={() => {
-            dispatch(toggleCompleted(task));
-          }}
+          onChange={handleToggle}
         />
         <p className={css.text}>{task.text}</p>
-        <button
-          className={css.btn}
-          onClick={() => dispatch(deleteTask(task.id))}
-        >
+        <button className={css.btn} onClick={handleDelete}>
           <MdClose size={24} />
         </button>
       </div>
-      <CommentForm id={task.id} />
+
       <div className={css.comments}>
-        <h4>Comments</h4>
-        <ul>
-          {comments?.length > 0 ? (
-            comments.map(elem => (
-              <li className={css.listItem} key={elem.id}>
-                <p> {elem.text}</p>
-                <button
-                  className={css.btn}
-                  onClick={() =>
-                    dispatch(
-                      deleteComment({ taskId: task.id, commentId: elem.id })
-                    )
-                  }
-                >
-                  <MdClose size={14} />
-                </button>
-              </li>
-            ))
-          ) : (
-            <p>No comments</p>
-          )}
-        </ul>
+        <h3>Comments</h3>
+        {comments.length > 0 ? (
+          <ul>
+            {comments.map(comment => {
+              return (
+                <li key={comment.id} className={css.commentItem}>
+                  {comment.text}
+                  <button
+                    className={css.commentBtn}
+                    onClick={() =>
+                      dispatch(
+                        deleteComment({
+                          taskId: task.id,
+                          commentId: comment.id,
+                        })
+                      )
+                    }
+                  >
+                    <MdClose size={14} />
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <p>No comment for this task</p>
+        )}
       </div>
-    </>
+      <CommentForm id={task.id} />
+    </div>
   );
 };

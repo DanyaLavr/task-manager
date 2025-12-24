@@ -1,0 +1,15 @@
+.form {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+    margin-bottom: 30px;
+}
+
+.field {
+    padding: 8px;
+    font-size: 14px;
+}
+
+.field:focus {
+    outline-color: #1976d2;
+}

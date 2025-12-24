@@ -1,30 +1,39 @@
-import { Button } from "components/Button/Button";
+import { Button } from "../Button/Button";
 import css from "./StatusFilter.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { statusFilter } from "redux/constants";
-import { selectStatus } from "redux/selectors";
-import { setStatusFilter } from "redux/filtersSlice";
+import { useSelector } from "react-redux";
+import { statusFilter } from "../../redux/filters/selectors";
+import { selectFilter } from "../../redux/filters/selectors";
+import { useDispatch } from "react-redux";
+import { setStatusFilter } from "../../redux/filters/filtersSlice";
+
 export const StatusFilter = () => {
-  const filter = useSelector(selectStatus);
+  const filter = useSelector(selectFilter); // all
+
   const dispatch = useDispatch();
-  const onClick = val => dispatch(setStatusFilter(val));
+
+  const haddleFilterChange = (filter) => dispatch(setStatusFilter(filter));
+
+  //!!! filter === statusFilter.all || all === all - true
+  //!!! filter === statusFilter.active || all === active - false
+  //!!! filter === statusFilter.completed || all === completed - false
+
   return (
     <div className={css.wrapper}>
       <Button
-        onClick={() => onClick(statusFilter.all)}
         selected={filter === statusFilter.all}
+        onClick={() => haddleFilterChange(statusFilter.all)}
       >
         All
       </Button>
       <Button
-        onClick={() => onClick(statusFilter.active)}
         selected={filter === statusFilter.active}
+        onClick={() => haddleFilterChange(statusFilter.active)}
       >
         Active
       </Button>
       <Button
-        onClick={() => onClick(statusFilter.completed)}
         selected={filter === statusFilter.completed}
+        onClick={() => haddleFilterChange(statusFilter.completed)}
       >
         Completed
       </Button>
