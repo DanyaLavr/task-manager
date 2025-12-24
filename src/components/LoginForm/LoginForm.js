@@ -40,11 +40,11 @@ export const LoginForm = () => {
     >
       <Form className={css.form}>
         <label className={css.label}>
-          <Field name="email" placeholder="email" />
+          <Field name="email" type="email" placeholder="email" />
           <ErrorMessage name="email" />
         </label>
         <label className={css.label}>
-          <Field name="password" placeholder="password" />
+          <Field name="password" type="password" placeholder="password" />
           <ErrorMessage name="password" />
         </label>
         {isLoading && <Loader />}
